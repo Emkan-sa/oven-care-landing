@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /thank-you
+Sitemap: https://ovencare-2yitq5yf.manus.space/sitemap.xml
