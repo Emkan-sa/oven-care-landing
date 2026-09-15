@@ -19,6 +19,11 @@ h1,h2,h3,p { margin: 0; }
 .form-input:focus { border-color: rgba(214,169,68,.8); background: rgba(214,169,68,.07); box-shadow: 0 0 0 3px rgba(214,169,68,.12); }
 .form-input option { color: #07111f; background: #f7f2e8; }
 .loader { width: 18px; height: 18px; border: 2px solid rgba(7,17,31,.35); border-top-color: #07111f; border-radius: 999px; animation: spin .7s linear infinite; }
+.countdown-pulse { animation: countdown-pulse 2.2s ease-in-out infinite; transform-origin: center; }
+.countdown-seconds { display: inline-block; min-width: 2ch; text-align: center; animation: seconds-pop 1s ease-in-out infinite; }
+.cookie-banner { position: fixed; z-index: 40; right: 18px; bottom: 18px; left: 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border: 1px solid rgba(214,169,68,.35); border-radius: 18px; background: rgba(11,25,41,.96); padding: 14px 17px; color: rgba(255,255,255,.7); font-size: 12px; box-shadow: 0 15px 40px rgba(0,0,0,.35); backdrop-filter: blur(14px); }
+.cookie-banner a { color: #f0ca70; font-weight: 700; }
+.cookie-banner button { border-radius: 10px; background: #d6a944; padding: 9px 17px; color: #07111f; font-weight: 900; white-space: nowrap; }
 .whatsapp-float, .call-float { position: fixed; z-index: 30; bottom: 22px; display: flex; align-items: center; justify-content: center; border: 4px solid rgba(255,255,255,.9); color: white; font-size: 11px; font-weight: 900; box-shadow: 0 8px 28px rgba(0,0,0,.35); transition: transform .18s ease; }
 .whatsapp-float { left: 22px; width: 64px; height: 64px; border-radius: 999px; background: #1fbd64; box-shadow: 0 8px 28px rgba(0,0,0,.35), 0 0 0 8px rgba(31,189,100,.13); }
 .call-float { left: 96px; width: 64px; height: 64px; border-radius: 999px; background: #d6a944; color: #07111f; }
@@ -28,5 +33,7 @@ h1,h2,h3,p { margin: 0; }
 @keyframes fade-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @keyframes spin { to { transform: rotate(360deg); } }
-@media (max-width: 480px) { .call-float { left: 96px; } }
+@keyframes countdown-pulse { 0%,100% { box-shadow: 0 0 0 rgba(7,17,31,0); } 50% { box-shadow: 0 0 0 5px rgba(7,17,31,.09); } }
+@keyframes seconds-pop { 0%,100% { transform: scale(1); } 50% { transform: scale(1.18); color: #fff3bd; } }
+@media (max-width: 480px) { .call-float { left: 96px; } .cookie-banner { align-items: flex-start; flex-direction: column; } .cookie-banner button { align-self: flex-end; } }
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }
