@@ -39,6 +39,10 @@ export default function Home() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const message = `مرحباً، أرغب بحجز موعد.%0Aالاسم: ${data.get("name")}%0Aالمدينة: ${data.get("city")}%0Aنوع الفرن: ${data.get("oven")}`;
+    const orderNumber = `OM-${Date.now().toString().slice(-6)}`;
+    const booking = { orderNumber, name: data.get("name"), city: data.get("city"), oven: data.get("oven"), createdAt: new Date().toISOString() };
+    sessionStorage.setItem("oven-care-booking", JSON.stringify(booking));
+    const w = window as Window & { dataLayer?: Record<string, unknown>[] }; w.dataLayer = w.dataLayer || []; w.dataLayer.push({ event: "booking_details_ready", booking });
     trackConversion("booking_submit"); setIsSubmitting(true); window.open(`https://wa.me/966509677008?text=${message}`, "_blank", "noopener,noreferrer");
     window.setTimeout(() => { setIsSubmitting(false); setSubmitted(true); window.location.assign("/thank-you"); }, 900);
   };
