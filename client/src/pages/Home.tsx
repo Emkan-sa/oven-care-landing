@@ -3,7 +3,7 @@ import type React from "react";
 import { ArrowLeft, Check, Clock3, Flame, MapPin, MessageCircle, Quote, ShieldCheck, Sparkles, Wrench, Zap } from "lucide-react";
 
 const WHATSAPP_URL = "https://wa.me/966509677008?text=مرحباً، أرغب بحجز خدمة صيانة وتنظيف الفرن والاستفادة من خصم 15٪";
-const SNAP_PIXEL_ID = "";
+const SNAP_PIXEL_ID = "1f59acaf-f834-4106-bd0a-e07bc9e18c68";
 const GA_MEASUREMENT_ID = "";
 
 const services = [
