@@ -18,10 +18,15 @@ h1,h2,h3,p { margin: 0; }
 .form-input::placeholder { color: rgba(255,255,255,.34); }
 .form-input:focus { border-color: rgba(214,169,68,.8); background: rgba(214,169,68,.07); box-shadow: 0 0 0 3px rgba(214,169,68,.12); }
 .form-input option { color: #07111f; background: #f7f2e8; }
-.whatsapp-float { position: fixed; z-index: 30; bottom: 22px; left: 22px; display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 999px; background: #1fbd64; border: 4px solid rgba(255,255,255,.9); color: white; font-size: 11px; font-weight: 900; box-shadow: 0 8px 28px rgba(0,0,0,.35), 0 0 0 8px rgba(31,189,100,.13); transition: transform .18s ease; }
-.whatsapp-float:hover { transform: scale(1.08); }
+.loader { width: 18px; height: 18px; border: 2px solid rgba(7,17,31,.35); border-top-color: #07111f; border-radius: 999px; animation: spin .7s linear infinite; }
+.whatsapp-float, .call-float { position: fixed; z-index: 30; bottom: 22px; display: flex; align-items: center; justify-content: center; border: 4px solid rgba(255,255,255,.9); color: white; font-size: 11px; font-weight: 900; box-shadow: 0 8px 28px rgba(0,0,0,.35); transition: transform .18s ease; }
+.whatsapp-float { left: 22px; width: 64px; height: 64px; border-radius: 999px; background: #1fbd64; box-shadow: 0 8px 28px rgba(0,0,0,.35), 0 0 0 8px rgba(31,189,100,.13); }
+.call-float { left: 96px; width: 64px; height: 64px; border-radius: 999px; background: #d6a944; color: #07111f; }
+.whatsapp-float:hover, .call-float:hover { transform: scale(1.08); }
 .animate-fade-up { animation: fade-up .65s both cubic-bezier(.23,1,.32,1); }
 .animate-float { animation: float 5s ease-in-out infinite; }
 @keyframes fade-up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (max-width: 480px) { .call-float { left: 96px; } }
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }

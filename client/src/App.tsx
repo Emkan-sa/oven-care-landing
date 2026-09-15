@@ -4,10 +4,12 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import ThankYou from "./pages/ThankYou";
 
 function Router() {
   return (
     <Switch>
+      <Route path="/thank-you" component={ThankYou} />
       <Route path="/" component={Home} />
       <Route component={Home} />
     </Switch>
