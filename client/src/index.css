@@ -14,6 +14,10 @@ h1,h2,h3,p { margin: 0; }
 .gold-button:active { transform: scale(.97); }
 .service-card { transition: transform .22s cubic-bezier(.23,1,.32,1), border-color .22s ease, background .22s ease; }
 .service-card:hover { transform: translateY(-6px); border-color: rgba(214,169,68,.55); background: rgba(214,169,68,.07); }
+.form-input { display: block; width: 100%; margin-top: 9px; border: 1px solid rgba(255,255,255,.12); border-radius: 13px; background: rgba(255,255,255,.05); color: #f7f2e8; padding: 13px 14px; outline: none; font: inherit; font-size: 14px; transition: border-color .18s ease, background .18s ease, box-shadow .18s ease; }
+.form-input::placeholder { color: rgba(255,255,255,.34); }
+.form-input:focus { border-color: rgba(214,169,68,.8); background: rgba(214,169,68,.07); box-shadow: 0 0 0 3px rgba(214,169,68,.12); }
+.form-input option { color: #07111f; background: #f7f2e8; }
 .whatsapp-float { position: fixed; z-index: 30; bottom: 22px; left: 22px; display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 999px; background: #1fbd64; border: 4px solid rgba(255,255,255,.9); color: white; font-size: 11px; font-weight: 900; box-shadow: 0 8px 28px rgba(0,0,0,.35), 0 0 0 8px rgba(31,189,100,.13); transition: transform .18s ease; }
 .whatsapp-float:hover { transform: scale(1.08); }
 .animate-fade-up { animation: fade-up .65s both cubic-bezier(.23,1,.32,1); }
