@@ -28,6 +28,10 @@ h1,h2,h3,p { margin: 0; }
 .whatsapp-float { left: 22px; width: 64px; height: 64px; border-radius: 999px; background: #1fbd64; box-shadow: 0 8px 28px rgba(0,0,0,.35), 0 0 0 8px rgba(31,189,100,.13); }
 .call-float { right: 22px; width: 64px; height: 64px; border-radius: 999px; background: #d6a944; color: #07111f; }
 .float-spark { position: absolute; top: 5px; right: 8px; font-size: 13px; color: #fff3bd; animation: spark-twinkle 2.4s ease-in-out infinite; }
+.float-icon { width: clamp(22px, 7vw, 29px); height: clamp(22px, 7vw, 29px); }
+.float-tooltip { pointer-events: none; position: absolute; bottom: calc(100% + 10px); left: 50%; width: max-content; max-width: 170px; transform: translate(-50%, 6px); border: 1px solid rgba(214,169,68,.35); border-radius: 10px; background: #0b1929; padding: 8px 11px; color: #f0ca70; font-size: 12px; font-weight: 700; opacity: 0; box-shadow: 0 8px 22px rgba(0,0,0,.25); transition: opacity .18s ease, transform .18s ease; }
+.float-tooltip::after { content: ""; position: absolute; top: 100%; left: 50%; border: 5px solid transparent; border-top-color: #0b1929; transform: translateX(-50%); }
+.whatsapp-float:hover .float-tooltip, .call-float:hover .float-tooltip, .whatsapp-float:focus-visible .float-tooltip, .call-float:focus-visible .float-tooltip { opacity: 1; transform: translate(-50%, 0); }
 .whatsapp-float:hover, .call-float:hover { transform: scale(1.08); }
 .animate-fade-up { animation: fade-up .65s both cubic-bezier(.23,1,.32,1); }
 .animate-float { animation: float 5s ease-in-out infinite; }
@@ -37,5 +41,5 @@ h1,h2,h3,p { margin: 0; }
 @keyframes countdown-pulse { 0%,100% { box-shadow: 0 0 0 rgba(7,17,31,0); } 50% { box-shadow: 0 0 0 5px rgba(7,17,31,.09); } }
 @keyframes seconds-pop { 0%,100% { transform: scale(1); } 50% { transform: scale(1.18); color: #fff3bd; } }
 @keyframes spark-twinkle { 0%,100% { opacity: .35; transform: scale(.85) rotate(0deg); } 50% { opacity: 1; transform: scale(1.15) rotate(20deg); } }
-@media (max-width: 480px) { .cookie-banner { align-items: flex-start; flex-direction: column; } .cookie-banner button { align-self: flex-end; } }
+@media (max-width: 480px) { .whatsapp-float, .call-float { bottom: 16px; width: 56px; height: 56px; border-width: 3px; } .whatsapp-float { left: 16px; } .call-float { right: 16px; } .float-spark { top: 3px; right: 6px; font-size: 11px; } .cookie-banner { align-items: flex-start; flex-direction: column; } .cookie-banner button { align-self: flex-end; } }
 @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }

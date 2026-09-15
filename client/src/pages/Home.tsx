@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type React from "react";
-import { ArrowLeft, Check, Clock3, Flame, MapPin, MessageCircle, Quote, ShieldCheck, Sparkles, Wrench, Zap } from "lucide-react";
+import { ArrowLeft, Check, Clock3, Flame, MapPin, MessageCircle, Phone, Quote, ShieldCheck, Sparkles, Wrench, Zap } from "lucide-react";
 
 const WHATSAPP_URL = "https://wa.me/966509677008?text=مرحباً، أرغب بحجز خدمة صيانة وتنظيف الفرن والاستفادة من خصم 15٪";
 const SNAP_PIXEL_ID = "1f59acaf-f834-4106-bd0a-e07bc9e18c68";
@@ -58,6 +58,7 @@ export default function Home() {
   };
 
   const whatsappClick = () => trackConversion("whatsapp_click");
+  const phoneClick = () => trackConversion("phone_click");
   return (
     <main dir="rtl" className="min-h-screen overflow-hidden bg-[#07111f] text-[#f7f2e8]">
       <div className="fixed inset-0 -z-0 opacity-30 [background-image:radial-gradient(#d6a944_0.7px,transparent_0.7px)] [background-size:24px_24px]" />
@@ -106,7 +107,7 @@ export default function Home() {
 
         <footer className="border-t border-white/8 px-5 py-8 text-center text-sm text-white/40"><div className="mb-5 flex flex-wrap justify-center gap-3"><a href="https://www.snapchat.com/add/the-idia" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 px-4 py-2 transition hover:border-[#d6a944]/50 hover:text-[#f0ca70]">Snapchat</a><a href="https://www.instagram.com/en.afran_0509677008" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 px-4 py-2 transition hover:border-[#d6a944]/50 hover:text-[#f0ca70]">Instagram</a><a href="https://www.tiktok.com/@elmithaly" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 px-4 py-2 transition hover:border-[#d6a944]/50 hover:text-[#f0ca70]">TikTok</a><a href="https://www.facebook.com/methalyunion" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 px-4 py-2 transition hover:border-[#d6a944]/50 hover:text-[#f0ca70]">Facebook</a></div><div className="mb-5 flex justify-center gap-5 text-xs"><a href="/privacy" className="transition hover:text-[#f0ca70]">الخصوصية</a><a href="/terms" className="transition hover:text-[#f0ca70]">الشروط والأحكام</a><a href="/cookies" className="transition hover:text-[#f0ca70]">سياسة الكوكيز</a></div><p>© {new Date().getFullYear()} المجموعة المثالية للخدمات المنزلية. جميع الحقوق محفوظة.</p></footer>
         {showCookies && <div className="cookie-banner"><p>نستخدم ملفات تعريف الارتباط لتحسين التجربة وقياس أداء الحملات. <a href="/cookies">اعرف المزيد</a></p><button onClick={() => { localStorage.setItem("oven-cookie-consent", "1"); setShowCookies(false); }}>موافق</button></div>}
-        <a onClick={whatsappClick} href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="whatsapp-float" aria-label="الحجز عبر واتساب"><span className="float-spark">✦</span>واتساب</a><a href="tel:+966509677008" className="call-float" aria-label="الاتصال بالمجموعة المثالية"><span className="float-spark">✦</span>اتصال</a>
+        <a onClick={whatsappClick} href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="whatsapp-float" aria-label="الحجز عبر واتساب"><span className="float-spark">✦</span><MessageCircle className="float-icon" size={26} /><span className="float-tooltip">تواصل عبر واتساب</span></a><a onClick={phoneClick} href="tel:+966509677008" className="call-float" aria-label="الاتصال بالمجموعة المثالية"><span className="float-spark">✦</span><Phone className="float-icon" size={25} /><span className="float-tooltip">اتصل بنا الآن</span></a>
       </div>
     </main>
   );

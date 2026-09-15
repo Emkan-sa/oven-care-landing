@@ -10,6 +10,7 @@ export default function ThankYou() {
   const shareUrl = typeof window !== "undefined" ? window.location.origin : "";
   const shareText = "عرض اليوم الوطني من المجموعة المثالية: خصم 15% على خدمات صيانة وتنظيف الأفران";
   const shareOffer = async () => { if (navigator.share) { await navigator.share({ title: "عرض المجموعة المثالية", text: shareText, url: shareUrl }); } else { await navigator.clipboard?.writeText(`${shareText} ${shareUrl}`); setShared(true); } };
+  const trackContact = (eventName: string) => { const w = window as Window & { dataLayer?: Record<string, unknown>[] }; w.dataLayer = w.dataLayer || []; w.dataLayer.push({ event: eventName, page: "thank-you" }); };
   return (
     <main dir="rtl" className="flex min-h-screen items-center justify-center overflow-hidden bg-[#07111f] px-5 py-16 text-[#f7f2e8]">
       <div className="fixed inset-0 -z-0 opacity-30 [background-image:radial-gradient(#d6a944_0.7px,transparent_0.7px)] [background-size:24px_24px]" />
@@ -24,8 +25,8 @@ export default function ThankYou() {
         <div className="mt-6 flex flex-wrap justify-center gap-3"><a href={`https://wa.me/?text=${encodeURIComponent(`${shareText} ${shareUrl}`)}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-[#20bf68]/40 px-4 py-3 text-sm font-bold text-[#55db8b] transition hover:bg-[#20bf68]/10"><MessageCircle size={17} /> مشاركة عبر واتساب</a><button onClick={shareOffer} className="inline-flex items-center gap-2 rounded-xl border border-[#d6a944]/40 px-4 py-3 text-sm font-bold text-[#f0ca70] transition hover:bg-[#d6a944]/10"><Share2 size={17} /> مشاركة عبر سناب {shared ? <Check size={15} /> : <Copy size={15} />}</button></div>
         <a href="/" className="mt-5 block text-sm font-bold text-white/45 transition hover:text-[#f0ca70]">العودة إلى الصفحة الرئيسية</a>
       </section>
-      <a href="tel:+966509677008" className="call-float" aria-label="الاتصال بالمجموعة المثالية"><Phone size={22} /></a>
-      <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="whatsapp-float" aria-label="الحجز عبر واتساب">واتساب</a>
+      <a onClick={() => trackContact("phone_click")} href="tel:+966509677008" className="call-float" aria-label="الاتصال بالمجموعة المثالية"><span className="float-spark">✦</span><Phone className="float-icon" size={25} /><span className="float-tooltip">اتصل بنا الآن</span></a>
+      <a onClick={() => trackContact("whatsapp_click")} href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="whatsapp-float" aria-label="الحجز عبر واتساب"><span className="float-spark">✦</span><MessageCircle className="float-icon" size={26} /><span className="float-tooltip">تواصل عبر واتساب</span></a>
     </main>
   );
 }
