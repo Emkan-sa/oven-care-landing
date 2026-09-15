@@ -5,6 +5,7 @@ import { ArrowLeft, Check, Clock3, Flame, MapPin, MessageCircle, Quote, ShieldCh
 const WHATSAPP_URL = "https://wa.me/966509677008?text=مرحباً، أرغب بحجز خدمة صيانة وتنظيف الفرن والاستفادة من خصم 15٪";
 const SNAP_PIXEL_ID = "1f59acaf-f834-4106-bd0a-e07bc9e18c68";
 const GA_MEASUREMENT_ID = "";
+const BOOKING_WEBHOOK_URL = "";
 
 const services = [
   { icon: Flame, title: "صيانة الأفران", text: "تشخيص دقيق وإصلاح احترافي لأفران الغاز والكهرباء." },
@@ -17,6 +18,13 @@ const benefits = ["فحص تسريب الغاز مجاناً مع الصيانة
 export default function Home() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const offerEndsAt = new Date("2026-09-30T23:59:59+03:00").getTime();
+    const tick = () => { const remaining = Math.max(0, offerEndsAt - Date.now()); const total = Math.floor(remaining / 1000); setCountdown({ days: Math.floor(total / 86400), hours: Math.floor((total % 86400) / 3600), minutes: Math.floor((total % 3600) / 60), seconds: total % 60 }); };
+    tick(); const timer = window.setInterval(tick, 1000); return () => window.clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     if (GA_MEASUREMENT_ID && !document.querySelector("script[data-oven-ga]")) {
@@ -43,6 +51,7 @@ export default function Home() {
     const booking = { orderNumber, name: data.get("name"), city: data.get("city"), oven: data.get("oven"), createdAt: new Date().toISOString() };
     sessionStorage.setItem("oven-care-booking", JSON.stringify(booking));
     const w = window as Window & { dataLayer?: Record<string, unknown>[] }; w.dataLayer = w.dataLayer || []; w.dataLayer.push({ event: "booking_details_ready", booking });
+    if (BOOKING_WEBHOOK_URL) { fetch(BOOKING_WEBHOOK_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(booking), keepalive: true }).catch(() => undefined); }
     trackConversion("booking_submit"); setIsSubmitting(true); window.open(`https://wa.me/966509677008?text=${message}`, "_blank", "noopener,noreferrer");
     window.setTimeout(() => { setIsSubmitting(false); setSubmitted(true); window.location.assign("/thank-you"); }, 900);
   };
@@ -52,10 +61,7 @@ export default function Home() {
     <main dir="rtl" className="min-h-screen overflow-hidden bg-[#07111f] text-[#f7f2e8]">
       <div className="fixed inset-0 -z-0 opacity-30 [background-image:radial-gradient(#d6a944_0.7px,transparent_0.7px)] [background-size:24px_24px]" />
       <div className="relative z-10">
-        <div className="border-b border-[#d6a944]/20 bg-[#d6a944] px-4 py-2 text-center text-sm font-bold text-[#07111f] sm:text-base">
-          <span className="ml-2 inline-flex items-center gap-1"><Sparkles size={15} /> عرض اليوم الوطني</span>
-          <span className="font-black"> خصم 15% على جميع الخدمات</span>
-        </div>
+        <div className="border-b border-[#d6a944]/20 bg-[#d6a944] px-4 py-2 text-center text-sm font-bold text-[#07111f] sm:text-base"><span className="ml-2 inline-flex items-center gap-1"><Sparkles size={15} /> عرض اليوم الوطني</span><span className="font-black"> خصم 15% على جميع الخدمات</span><span className="mr-3 inline-flex items-center gap-1 rounded-full bg-[#07111f]/10 px-2 py-0.5 text-xs"><span>{String(countdown.days).padStart(2, "0")} يوم</span><span>:</span><span>{String(countdown.hours).padStart(2, "0")} ساعة</span><span>:</span><span>{String(countdown.minutes).padStart(2, "0")} دقيقة</span><span>:</span><span>{String(countdown.seconds).padStart(2, "0")} ث</span></span></div>
 
         <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 lg:px-8">
           <a href="#top" className="flex items-center gap-3" aria-label="المجموعة المثالية">
@@ -93,9 +99,11 @@ export default function Home() {
 
         <section className="border-y border-white/8 bg-[#0b1929]/70 px-5 py-20 lg:px-8"><div className="mx-auto max-w-7xl"><p className="mb-3 text-sm font-bold tracking-[0.2em] text-[#d6a944]">ثقة تتكرر</p><h2 className="text-3xl font-black sm:text-5xl">ماذا يقول <span className="gold-text">عملاؤنا؟</span></h2><div className="mt-10 grid gap-5 md:grid-cols-3">{[["سارة من الرياض","الخدمة سريعة جداً والفني نظف الفرن كأنه جديد. أنصح بهم."],["خالد من جدة","فحص تسريب الغاز أعطاني راحة كبيرة، والتعامل كان احترافياً."],["نورة من الدمام","حجزت عبر واتساب ووصل الفني بنفس اليوم. تجربة ممتازة." ]].map(([name,text]) => <article key={name} className="rounded-3xl border border-white/10 bg-white/[.035] p-6"><Quote className="text-[#d6a944]" size={24} /><p className="mt-5 leading-7 text-white/70">“{text}”</p><p className="mt-5 font-bold text-[#f0ca70]">{name}</p></article>)}</div><div className="mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-5 border-t border-white/10 pt-8 text-sm font-bold text-white/40"><span className="text-lg text-white/55">BOSCH</span><span className="text-lg text-white/55">ARISTON</span><span className="text-lg text-white/55">ELECTROLUX</span><span className="text-lg text-white/55">WHIRLPOOL</span><span className="text-lg text-white/55">SIEMENS</span></div></div></section>
 
+        <section className="mx-auto max-w-4xl px-5 py-20 lg:px-8"><div className="text-center"><p className="mb-3 text-sm font-bold tracking-[0.2em] text-[#d6a944]">أسئلة شائعة</p><h2 className="text-3xl font-black sm:text-5xl">كل ما تريد معرفته<br /><span className="gold-text">قبل الحجز</span></h2></div><div className="mt-10 space-y-3">{[["هل يوجد ضمان على الصيانة؟","نعم، نقدم ضمانًا معتمدًا على أعمال الصيانة بحسب نوع العطل والقطعة المستخدمة، ونوضح لك التفاصيل قبل بدء العمل."],["هل تستخدمون قطع غيار أصلية؟","نوفر قطع غيار أصلية وموثوقة لمختلف الماركات الإيطالية والألمانية والأمريكية، مع توضيح القطعة والتكلفة قبل التركيب."],["هل فحص تسريب الغاز مجاني؟","نعم، فحص تسريب الغاز مجاني مع تنفيذ خدمة الصيانة، لأن سلامة منزلك أولوية لدينا."],["كم يستغرق وصول الفني؟","نستهدف الوصول في نفس اليوم حسب المدينة وتوفر المواعيد، وسيتواصل معك الفريق لتأكيد الوقت المتوقع."]].map(([question,answer]) => <details key={question} className="group rounded-2xl border border-white/10 bg-white/[.035] p-5"><summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-bold text-white/85"><span>{question}</span><span className="text-2xl font-light text-[#d6a944] transition group-open:rotate-45">+</span></summary><p className="mt-4 max-w-3xl leading-8 text-white/55">{answer}</p></details>)}</div></section>
+
         <section className="px-5 pb-24 lg:px-8"><div className="mx-auto max-w-5xl overflow-hidden rounded-[2rem] border border-[#d6a944]/35 bg-gradient-to-br from-[#172b3d] to-[#0b1726] p-8 text-center shadow-2xl sm:p-14"><p className="text-sm font-bold tracking-[0.2em] text-[#d6a944]">جاهز لفرن أنظف وأكثر أماناً؟</p><h2 className="mx-auto mt-4 max-w-2xl text-3xl font-black leading-tight sm:text-5xl">احجز موعدك الآن واستفد من <span className="gold-text">خصم 15%</span></h2><p className="mt-5 text-white/55">تواصل معنا مباشرة عبر واتساب على الرقم <span dir="ltr" className="font-bold text-[#f0ca70]">+966 50 967 7008</span></p><a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="gold-button mt-8 inline-flex items-center gap-3 rounded-2xl px-8 py-4 font-black">ابدأ محادثة واتساب <ArrowLeft size={19} /></a></div></section>
 
-        <footer className="border-t border-white/8 px-5 py-7 text-center text-sm text-white/40"><p>© {new Date().getFullYear()} المجموعة المثالية للخدمات المنزلية. جميع الحقوق محفوظة.</p></footer>
+        <footer className="border-t border-white/8 px-5 py-8 text-center text-sm text-white/40"><div className="mb-5 flex flex-wrap justify-center gap-3"><a href="https://www.snapchat.com/add/the-idia" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 px-4 py-2 transition hover:border-[#d6a944]/50 hover:text-[#f0ca70]">Snapchat</a><a href="https://www.instagram.com/en.afran_0509677008" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 px-4 py-2 transition hover:border-[#d6a944]/50 hover:text-[#f0ca70]">Instagram</a><a href="https://www.tiktok.com/@elmithaly" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 px-4 py-2 transition hover:border-[#d6a944]/50 hover:text-[#f0ca70]">TikTok</a><a href="https://www.facebook.com/methalyunion" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 px-4 py-2 transition hover:border-[#d6a944]/50 hover:text-[#f0ca70]">Facebook</a></div><p>© {new Date().getFullYear()} المجموعة المثالية للخدمات المنزلية. جميع الحقوق محفوظة.</p></footer>
         <a onClick={whatsappClick} href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="whatsapp-float" aria-label="الحجز عبر واتساب">واتساب</a><a href="tel:+966509677008" className="call-float" aria-label="الاتصال بالمجموعة المثالية">اتصال</a>
       </div>
     </main>
